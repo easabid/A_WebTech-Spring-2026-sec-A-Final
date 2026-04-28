@@ -1,8 +1,27 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import CourseTag from './CourseTag'
 import StatBadge from './StatBadge'
 
-function StudentCard({ name, id, avatar, gpa, major, credits, courses }) {
+function StudentCard({
+  name,
+  id,
+  avatar,
+  gpa,
+  major,
+  credits,
+  courses,
+  initialFavorite,
+  onFavoriteChange,
+}) {
+  const [isFavorite, setIsFavorite] = useState(initialFavorite)
+
+  const handleFavoriteToggle = () => {
+    const nextFavoriteState = !isFavorite
+    setIsFavorite(nextFavoriteState)
+    onFavoriteChange(id, nextFavoriteState)
+  }
+
   return (
     <article className="student-card">
       <header className="student-card__header">
@@ -28,6 +47,15 @@ function StudentCard({ name, id, avatar, gpa, major, credits, courses }) {
           />
         ))}
       </div>
+
+      <button
+        type="button"
+        className={`favorite-toggle ${isFavorite ? 'favorite-toggle--active' : ''}`}
+        onClick={handleFavoriteToggle}
+        aria-pressed={isFavorite}
+      >
+        {isFavorite ? '★ Favorited' : '☆ Add Favorite'}
+      </button>
     </article>
   )
 }
@@ -45,6 +73,8 @@ StudentCard.propTypes = {
       color: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  initialFavorite: PropTypes.bool.isRequired,
+  onFavoriteChange: PropTypes.func.isRequired,
 }
 
 export default StudentCard

@@ -164,6 +164,24 @@
   gap: 0.5rem;
 }
 
+.favorite-toggle {
+  margin-top: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+}
+
+.favorite-toggle--active {
+  border-color: color-mix(in srgb, var(--color-accent), #ffffff 40%);
+  background: color-mix(in srgb, var(--color-accent), #ffffff 82%);
+  color: #5d2014;
+}
+
 .course-tag {
   --tag-color: #777;
   border-radius: 999px;

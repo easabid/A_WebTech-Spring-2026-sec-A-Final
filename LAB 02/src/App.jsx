@@ -64,6 +64,7 @@ function App() {
   const [students, setStudents] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [query, setQuery] = useState('')
+  const [favoriteIds, setFavoriteIds] = useState([])
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -86,6 +87,20 @@ function App() {
     )
   })
 
+  const handleFavoriteChange = (studentId, nextFavoriteState) => {
+    setFavoriteIds((prevFavoriteIds) => {
+      if (nextFavoriteState) {
+        if (prevFavoriteIds.includes(studentId)) {
+          return prevFavoriteIds
+        }
+
+        return [...prevFavoriteIds, studentId]
+      }
+
+      return prevFavoriteIds.filter((id) => id !== studentId)
+    })
+  }
+
   return (
     <div className="app-shell">
       <DashboardHeader
@@ -94,6 +109,7 @@ function App() {
         navItems={['Overview', 'Students', 'Courses', 'Reports']}
         totalStudents={students.length}
         avgGpa="3.75"
+        favoritesCount={favoriteIds.length}
       />
 
       {isLoading ? (
@@ -119,6 +135,8 @@ function App() {
                 major={student.major}
                 credits={student.credits}
                 courses={student.courses}
+                initialFavorite={favoriteIds.includes(student.id)}
+                onFavoriteChange={handleFavoriteChange}
               />
             ))}
           </main>

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import StatBadge from './StatBadge'
 
-function DashboardHeader({ title, tagline, navItems, totalStudents, avgGpa }) {
+function DashboardHeader({ title, tagline, navItems, totalStudents, avgGpa, favoritesCount }) {
   return (
     <header className="dashboard-header">
       <div className="dashboard-header__top">
@@ -14,6 +14,7 @@ function DashboardHeader({ title, tagline, navItems, totalStudents, avgGpa }) {
         <div className="dashboard-header__stats">
           <StatBadge label="Students" value={totalStudents} />
           <StatBadge label="Average GPA" value={avgGpa} />
+          <StatBadge label="Favorites" value={favoritesCount} />
         </div>
       </div>
 
@@ -36,6 +37,7 @@ DashboardHeader.propTypes = {
   navItems: PropTypes.arrayOf(PropTypes.string).isRequired,
   totalStudents: PropTypes.number.isRequired,
   avgGpa: PropTypes.string.isRequired,
+  favoritesCount: PropTypes.number.isRequired,
 }
 
 export default DashboardHeader
