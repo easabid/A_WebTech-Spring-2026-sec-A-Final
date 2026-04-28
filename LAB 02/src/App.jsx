@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import DashboardHeader from './components/DashboardHeader'
+import SearchBar from './components/SearchBar'
 import StudentCard from './components/StudentCard'
 import './styles/app.css'
 import './components/components.css'
@@ -62,6 +63,7 @@ const initialStudents = [
 function App() {
   const [students, setStudents] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -71,6 +73,18 @@ function App() {
 
     return () => clearTimeout(timerId)
   }, [])
+
+  const normalizedQuery = query.trim().toLowerCase()
+  const filteredStudents = students.filter((student) => {
+    if (!normalizedQuery) {
+      return true
+    }
+
+    return (
+      student.name.toLowerCase().includes(normalizedQuery) ||
+      student.major.toLowerCase().includes(normalizedQuery)
+    )
+  })
 
   return (
     <div className="app-shell">
@@ -88,20 +102,27 @@ function App() {
           <p>Loading students...</p>
         </main>
       ) : (
-        <main className="student-grid">
-          {students.map((student) => (
-            <StudentCard
-              key={student.id}
-              name={student.name}
-              id={student.id}
-              avatar={student.avatar}
-              gpa={student.gpa}
-              major={student.major}
-              credits={student.credits}
-              courses={student.courses}
-            />
-          ))}
-        </main>
+        <>
+          <SearchBar
+            query={query}
+            onQueryChange={setQuery}
+          />
+
+          <main className="student-grid">
+            {filteredStudents.map((student) => (
+              <StudentCard
+                key={student.id}
+                name={student.name}
+                id={student.id}
+                avatar={student.avatar}
+                gpa={student.gpa}
+                major={student.major}
+                credits={student.credits}
+                courses={student.courses}
+              />
+            ))}
+          </main>
+        </>
       )}
     </div>
   )
