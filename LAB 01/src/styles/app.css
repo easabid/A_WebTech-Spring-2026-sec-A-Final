@@ -1,10 +1,7 @@
 .app-shell {
   min-height: 100vh;
   padding: var(--space-xl);
-  background:
-    radial-gradient(circle at 12% 5%, #ffe5cd 0, transparent 45%),
-    radial-gradient(circle at 93% 30%, #ffd7c8 0, transparent 42%),
-    var(--color-bg);
+  background: var(--color-bg);
 }
 
 .student-grid {
