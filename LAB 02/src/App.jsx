@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import DashboardHeader from './components/DashboardHeader'
 import SearchBar from './components/SearchBar'
+import SortControls from './components/SortControls'
 import StudentCard from './components/StudentCard'
 import './styles/app.css'
 import './components/components.css'
@@ -65,6 +66,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [query, setQuery] = useState('')
   const [favoriteIds, setFavoriteIds] = useState([])
+  const [sortPreference, setSortPreference] = useState('default')
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -85,6 +87,18 @@ function App() {
       student.name.toLowerCase().includes(normalizedQuery) ||
       student.major.toLowerCase().includes(normalizedQuery)
     )
+  })
+
+  const sortedStudents = [...filteredStudents].sort((firstStudent, secondStudent) => {
+    if (sortPreference === 'name') {
+      return firstStudent.name.localeCompare(secondStudent.name)
+    }
+
+    if (sortPreference === 'gpa') {
+      return Number(secondStudent.gpa) - Number(firstStudent.gpa)
+    }
+
+    return 0
   })
 
   useEffect(() => {
@@ -129,8 +143,13 @@ function App() {
             onQueryChange={setQuery}
           />
 
+          <SortControls
+            sortPreference={sortPreference}
+            onSortChange={setSortPreference}
+          />
+
           <main className="student-grid">
-            {filteredStudents.map((student) => (
+            {sortedStudents.map((student) => (
               <StudentCard
                 key={student.id}
                 name={student.name}
