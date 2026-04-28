@@ -87,6 +87,11 @@ function App() {
     )
   })
 
+  useEffect(() => {
+    const label = filteredStudents.length === 1 ? 'Student' : 'Students'
+    document.title = `Dashboard - ${filteredStudents.length} ${label}`
+  }, [filteredStudents.length])
+
   const handleFavoriteChange = (studentId, nextFavoriteState) => {
     setFavoriteIds((prevFavoriteIds) => {
       if (nextFavoriteState) {
