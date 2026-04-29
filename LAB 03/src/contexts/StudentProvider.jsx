@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { StudentContext } from './StudentContext.js'
 
@@ -102,7 +102,7 @@ function StudentProvider({ children }) {
     document.title = `Dashboard - ${filteredStudents.length} ${label}`
   }, [filteredStudents.length])
 
-  const toggleFavorite = (studentId) => {
+  const toggleFavorite = useCallback((studentId) => {
     setFavoriteIds((currentFavoriteIds) => {
       if (currentFavoriteIds.includes(studentId)) {
         return currentFavoriteIds.filter((id) => id !== studentId)
@@ -110,7 +110,11 @@ function StudentProvider({ children }) {
 
       return [...currentFavoriteIds, studentId]
     })
-  }
+  }, [])
+
+  const addStudent = useCallback((student) => {
+    setStudents((currentStudents) => [...currentStudents, student])
+  }, [])
 
   const value = useMemo(
     () => ({
@@ -126,6 +130,7 @@ function StudentProvider({ children }) {
       setQuery,
       setSortPreference,
       toggleFavorite,
+      addStudent,
     }),
     [
       students,
@@ -135,6 +140,8 @@ function StudentProvider({ children }) {
       favoriteIds,
       filteredStudents,
       displayedStudents,
+      addStudent,
+      toggleFavorite,
     ],
   )
 

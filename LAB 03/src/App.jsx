@@ -1,4 +1,5 @@
 import DashboardHeader from './components/DashboardHeader'
+import AddStudentForm from './components/AddStudentForm'
 import SearchBar from './components/SearchBar'
 import SortControls from './components/SortControls'
 import StudentCard from './components/StudentCard'
@@ -10,9 +11,7 @@ import './components/components.css'
 function App() {
   const {
     isLoading,
-    favoriteIds,
     displayedStudents,
-    toggleFavorite,
   } = useContext(StudentContext)
 
   return (
@@ -31,6 +30,8 @@ function App() {
         </main>
       ) : (
         <>
+          <AddStudentForm />
+
           <SearchBar />
 
           <SortControls />
@@ -40,8 +41,6 @@ function App() {
               <StudentCard
                 key={student.id}
                 student={student}
-                isFavorite={favoriteIds.includes(student.id)}
-                onFavoriteToggle={toggleFavorite}
               />
             ))}
           </main>

@@ -13,4 +13,5 @@ export const StudentContext = createContext({
   setQuery: () => {},
   setSortPreference: () => {},
   toggleFavorite: () => {},
+  addStudent: () => {},
 })
