@@ -1,6 +1,9 @@
-import PropTypes from 'prop-types'
+import { useContext } from 'react'
+import { StudentContext } from '../contexts/StudentContext.js'
 
-function SortControls({ sortPreference, onSortChange }) {
+function SortControls() {
+  const { sortPreference, setSortPreference } = useContext(StudentContext)
+
   return (
     <section className="sort-panel" aria-label="Student sort controls">
       <p className="sort-panel__label">Sort by</p>
@@ -8,32 +11,27 @@ function SortControls({ sortPreference, onSortChange }) {
         <button
           type="button"
           className={`sort-panel__button ${sortPreference === 'default' ? 'sort-panel__button--active' : ''}`}
-          onClick={() => onSortChange('default')}
+          onClick={() => setSortPreference('default')}
         >
           Default
         </button>
         <button
           type="button"
           className={`sort-panel__button ${sortPreference === 'name' ? 'sort-panel__button--active' : ''}`}
-          onClick={() => onSortChange('name')}
+          onClick={() => setSortPreference('name')}
         >
           Name (A-Z)
         </button>
         <button
           type="button"
           className={`sort-panel__button ${sortPreference === 'gpa' ? 'sort-panel__button--active' : ''}`}
-          onClick={() => onSortChange('gpa')}
+          onClick={() => setSortPreference('gpa')}
         >
           GPA (High-Low)
         </button>
       </div>
     </section>
   )
-}
-
-SortControls.propTypes = {
-  sortPreference: PropTypes.oneOf(['default', 'name', 'gpa']).isRequired,
-  onSortChange: PropTypes.func.isRequired,
 }
 
 export default SortControls

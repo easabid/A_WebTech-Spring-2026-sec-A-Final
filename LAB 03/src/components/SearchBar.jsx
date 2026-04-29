@@ -1,6 +1,9 @@
-import PropTypes from 'prop-types'
+import { useContext } from 'react'
+import { StudentContext } from '../contexts/StudentContext.js'
 
-function SearchBar({ query, onQueryChange }) {
+function SearchBar() {
+  const { query, setQuery } = useContext(StudentContext)
+
   return (
     <section className="search-panel" aria-label="Student search controls">
       <label htmlFor="student-search" className="search-panel__label">
@@ -12,15 +15,10 @@ function SearchBar({ query, onQueryChange }) {
         className="search-panel__input"
         placeholder="Search by name or major"
         value={query}
-        onChange={(event) => onQueryChange(event.target.value)}
+        onChange={(event) => setQuery(event.target.value)}
       />
     </section>
   )
-}
-
-SearchBar.propTypes = {
-  query: PropTypes.string.isRequired,
-  onQueryChange: PropTypes.func.isRequired,
 }
 
 export default SearchBar

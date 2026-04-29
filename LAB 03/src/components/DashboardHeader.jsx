@@ -2,9 +2,11 @@ import { useContext } from 'react'
 import PropTypes from 'prop-types'
 import StatBadge from './StatBadge'
 import { ThemeContext } from '../contexts/ThemeContext.js'
+import { StudentContext } from '../contexts/StudentContext.js'
 
-function DashboardHeader({ title, tagline, navItems, totalStudents, avgGpa, favoritesCount }) {
+function DashboardHeader({ title, tagline, navItems, avgGpa }) {
   const { theme, toggleTheme } = useContext(ThemeContext)
+  const { totalStudents: studentCount, favoritesCount: favoriteCount } = useContext(StudentContext)
 
   return (
     <header className="dashboard-header">
@@ -21,9 +23,9 @@ function DashboardHeader({ title, tagline, navItems, totalStudents, avgGpa, favo
           </button>
 
           <div className="dashboard-header__stats">
-            <StatBadge label="Students" value={totalStudents} />
+            <StatBadge label="Students" value={studentCount} />
             <StatBadge label="Average GPA" value={avgGpa} />
-            <StatBadge label="Favorites" value={favoritesCount} />
+            <StatBadge label="Favorites" value={favoriteCount} />
           </div>
         </div>
       </div>
@@ -45,9 +47,7 @@ DashboardHeader.propTypes = {
   title: PropTypes.string.isRequired,
   tagline: PropTypes.string.isRequired,
   navItems: PropTypes.arrayOf(PropTypes.string).isRequired,
-  totalStudents: PropTypes.number.isRequired,
   avgGpa: PropTypes.string.isRequired,
-  favoritesCount: PropTypes.number.isRequired,
 }
 
 export default DashboardHeader

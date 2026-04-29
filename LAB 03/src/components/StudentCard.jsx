@@ -1,25 +1,18 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import CourseTag from './CourseTag'
 import StatBadge from './StatBadge'
+import { StudentContext } from '../contexts/StudentContext.js'
 
-function StudentCard({
-  name,
-  id,
-  avatar,
-  gpa,
-  major,
-  credits,
-  courses,
-  initialFavorite,
-  onFavoriteChange,
-}) {
-  const [isFavorite, setIsFavorite] = useState(initialFavorite)
+function StudentCard({ student }) {
+  const { id, avatar, name, gpa, major, credits, courses } = student
+  const { favoriteIds, toggleFavorite } = useContext(StudentContext)
+  const [localFavorite, setLocalFavorite] = useState(favoriteIds.includes(id))
+  const activeFavorite = favoriteIds.includes(id) || localFavorite
 
   const handleFavoriteToggle = () => {
-    const nextFavoriteState = !isFavorite
-    setIsFavorite(nextFavoriteState)
-    onFavoriteChange(id, nextFavoriteState)
+    setLocalFavorite((currentFavorite) => !currentFavorite)
+    toggleFavorite(id)
   }
 
   return (
@@ -50,31 +43,31 @@ function StudentCard({
 
       <button
         type="button"
-        className={`favorite-toggle ${isFavorite ? 'favorite-toggle--active' : ''}`}
+        className={`favorite-toggle ${activeFavorite ? 'favorite-toggle--active' : ''}`}
         onClick={handleFavoriteToggle}
-        aria-pressed={isFavorite}
+        aria-pressed={activeFavorite}
       >
-        {isFavorite ? '★ Favorited' : '☆ Add Favorite'}
+        {activeFavorite ? '★ Favorited' : '☆ Add Favorite'}
       </button>
     </article>
   )
 }
 
 StudentCard.propTypes = {
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
-  gpa: PropTypes.string.isRequired,
-  major: PropTypes.string.isRequired,
-  credits: PropTypes.number.isRequired,
-  courses: PropTypes.arrayOf(
-    PropTypes.shape({
-      courseName: PropTypes.string.isRequired,
-      color: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  initialFavorite: PropTypes.bool.isRequired,
-  onFavoriteChange: PropTypes.func.isRequired,
+  student: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    gpa: PropTypes.string.isRequired,
+    major: PropTypes.string.isRequired,
+    credits: PropTypes.number.isRequired,
+    courses: PropTypes.arrayOf(
+      PropTypes.shape({
+        courseName: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
 }
 
 export default StudentCard
