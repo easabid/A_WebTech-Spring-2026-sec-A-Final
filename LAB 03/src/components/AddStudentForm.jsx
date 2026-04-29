@@ -6,6 +6,7 @@ const initialForm = {
   studentId: '',
   major: '',
   gpa: '',
+  credits: '',
   courses: '',
 }
 
@@ -60,6 +61,15 @@ function AddStudentForm() {
       }
     }
 
+    if (!formValues.credits.trim()) {
+      nextErrors.credits = 'Credits is required.'
+    } else {
+      const numericCredits = Number(formValues.credits)
+      if (Number.isNaN(numericCredits) || numericCredits < 0) {
+        nextErrors.credits = 'Credits must be a non-negative number.'
+      }
+    }
+
     setErrors(nextErrors)
     return Object.keys(nextErrors).length === 0
   }
@@ -80,15 +90,15 @@ function AddStudentForm() {
         color: ['#666666', '#777777', '#888888'][index % 3],
       }))
 
-    const avatarNumber = (students.length % 4) + 1
+    const firstName = formValues.fullName.trim().split(' ')[0].toLowerCase()
 
     addStudent({
       name: formValues.fullName.trim(),
       id: formValues.studentId.trim(),
       major: formValues.major.trim(),
       gpa: Number(formValues.gpa).toFixed(1),
-      credits: 0,
-      avatar: `/avatars/student-${avatarNumber}.svg`,
+      credits: Number(formValues.credits),
+      avatar: `/avatars/${firstName}.jpg`,
       courses: parsedCourses,
     })
 
@@ -150,6 +160,17 @@ function AddStudentForm() {
             onChange={handleChange}
           />
           {errors.gpa ? <small className="field-error">{errors.gpa}</small> : null}
+        </label>
+
+        <label className="add-student-form__field">
+          <span>Credits</span>
+          <input
+            type="text"
+            name="credits"
+            value={formValues.credits}
+            onChange={handleChange}
+          />
+          {errors.credits ? <small className="field-error">{errors.credits}</small> : null}
         </label>
 
         <label className="add-student-form__field add-student-form__field--wide">

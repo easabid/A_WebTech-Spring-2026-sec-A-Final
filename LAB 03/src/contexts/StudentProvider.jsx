@@ -6,10 +6,10 @@ const STUDENTS_STORAGE_KEY = 'student-dashboard:students'
 
 const initialStudents = [
   {
-    name: 'A Sabid',
+    name: 'Sabid',
     id: '240101',
-    avatar: '/avatars/student-1.svg',
-    gpa: '3.8',
+    avatar: '/avatars/sabid.jpg',
+    gpa: '3.00',
     major: 'Computer Science',
     credits: 96,
     courses: [
@@ -19,10 +19,10 @@ const initialStudents = [
     ],
   },
   {
-    name: 'Mr Neta',
+    name: 'S. Hasina',
     id: '240102',
-    avatar: '/avatars/student-2.svg',
-    gpa: '3.9',
+    avatar: '/avatars/hasina.jpg',
+    gpa: '4.00',
     major: 'Information Technology',
     credits: 101,
     courses: [
@@ -32,10 +32,10 @@ const initialStudents = [
     ],
   },
   {
-    name: 'Rian Dog',
+    name: 'Che Guevara',
     id: '240103',
-    avatar: '/avatars/student-3.svg',
-    gpa: '3.6',
+    avatar: '/avatars/che.jpg',
+    gpa: '4.00',
     major: 'Software Engineering',
     credits: 88,
     courses: [
@@ -45,10 +45,10 @@ const initialStudents = [
     ],
   },
   {
-    name: 'Fardin Kha',
+    name: 'Fidel Castro',
     id: '240104',
-    avatar: '/avatars/student-4.svg',
-    gpa: '3.7',
+    avatar: '/avatars/fidel.jpg',
+    gpa: '4.00',
     major: 'Artificial Intelligence',
     credits: 93,
     courses: [
