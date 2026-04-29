@@ -14,4 +14,5 @@ export const StudentContext = createContext({
   setSortPreference: () => {},
   toggleFavorite: () => {},
   addStudent: () => {},
+  removeStudent: () => {},
 })

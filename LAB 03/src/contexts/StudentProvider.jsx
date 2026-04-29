@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { StudentContext } from './StudentContext.js'
 
+const STUDENTS_STORAGE_KEY = 'student-dashboard:students'
+
 const initialStudents = [
   {
     name: 'A Sabid',
@@ -66,12 +68,36 @@ function StudentProvider({ children }) {
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      setStudents(initialStudents)
+      try {
+        const rawStoredStudents = localStorage.getItem(STUDENTS_STORAGE_KEY)
+
+        if (rawStoredStudents) {
+          const parsedStudents = JSON.parse(rawStoredStudents)
+          if (Array.isArray(parsedStudents)) {
+            setStudents(parsedStudents)
+          } else {
+            setStudents(initialStudents)
+          }
+        } else {
+          setStudents(initialStudents)
+        }
+      } catch {
+        setStudents(initialStudents)
+      }
+
       setIsLoading(false)
     }, 1500)
 
     return () => clearTimeout(timerId)
   }, [])
+
+  useEffect(() => {
+    if (isLoading) {
+      return
+    }
+
+    localStorage.setItem(STUDENTS_STORAGE_KEY, JSON.stringify(students))
+  }, [students, isLoading])
 
   const normalizedQuery = query.trim().toLowerCase()
   const filteredStudents = students.filter((student) => {
@@ -116,6 +142,11 @@ function StudentProvider({ children }) {
     setStudents((currentStudents) => [...currentStudents, student])
   }, [])
 
+  const removeStudent = useCallback((studentId) => {
+    setStudents((currentStudents) => currentStudents.filter((student) => student.id !== studentId))
+    setFavoriteIds((currentFavoriteIds) => currentFavoriteIds.filter((id) => id !== studentId))
+  }, [])
+
   const value = useMemo(
     () => ({
       students,
@@ -131,6 +162,7 @@ function StudentProvider({ children }) {
       setSortPreference,
       toggleFavorite,
       addStudent,
+      removeStudent,
     }),
     [
       students,
@@ -141,6 +173,7 @@ function StudentProvider({ children }) {
       filteredStudents,
       displayedStudents,
       addStudent,
+      removeStudent,
       toggleFavorite,
     ],
   )

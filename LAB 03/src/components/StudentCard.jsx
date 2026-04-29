@@ -6,7 +6,7 @@ import { StudentContext } from '../contexts/StudentContext.js'
 
 function StudentCard({ student }) {
   const { id, avatar, name, gpa, major, credits, courses } = student
-  const { favoriteIds, toggleFavorite } = useContext(StudentContext)
+  const { favoriteIds, toggleFavorite, removeStudent } = useContext(StudentContext)
   const [localFavorite, setLocalFavorite] = useState(favoriteIds.includes(id))
   const activeFavorite = favoriteIds.includes(id) || localFavorite
 
@@ -48,6 +48,14 @@ function StudentCard({ student }) {
         aria-pressed={activeFavorite}
       >
         {activeFavorite ? '★ Favorited' : '☆ Add Favorite'}
+      </button>
+
+      <button
+        type="button"
+        className="remove-student"
+        onClick={() => removeStudent(id)}
+      >
+        Remove Student
       </button>
     </article>
   )
