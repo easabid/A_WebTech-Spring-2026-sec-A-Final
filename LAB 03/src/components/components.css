@@ -95,6 +95,17 @@
   font-family: var(--font-heading);
 }
 
+.form-success {
+  margin: 0 0 var(--space-md);
+  border: 1px solid #4f8a10;
+  border-radius: 4px;
+  padding: 0.5rem 0.65rem;
+  color: #2f5f0a;
+  background: #f2fbe8;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
 .add-student-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

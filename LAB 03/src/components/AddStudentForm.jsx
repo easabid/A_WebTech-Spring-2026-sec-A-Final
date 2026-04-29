@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { StudentContext } from '../contexts/StudentContext.js'
 
 const initialForm = {
@@ -13,6 +13,19 @@ function AddStudentForm() {
   const { students, addStudent } = useContext(StudentContext)
   const [formValues, setFormValues] = useState(initialForm)
   const [errors, setErrors] = useState({})
+  const [successMessage, setSuccessMessage] = useState('')
+
+  useEffect(() => {
+    if (!successMessage) {
+      return undefined
+    }
+
+    const timerId = setTimeout(() => {
+      setSuccessMessage('')
+    }, 3000)
+
+    return () => clearTimeout(timerId)
+  }, [successMessage])
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -79,6 +92,7 @@ function AddStudentForm() {
       courses: parsedCourses,
     })
 
+    setSuccessMessage('Student added successfully.')
     setFormValues(initialForm)
     setErrors({})
   }
@@ -86,6 +100,12 @@ function AddStudentForm() {
   return (
     <section className="add-student-panel" aria-label="Add student form">
       <h2 className="add-student-panel__title">Add Student</h2>
+
+      {successMessage ? (
+        <p className="form-success" role="status" aria-live="polite">
+          {successMessage}
+        </p>
+      ) : null}
 
       <form className="add-student-form" onSubmit={handleSubmit} noValidate>
         <label className="add-student-form__field">
